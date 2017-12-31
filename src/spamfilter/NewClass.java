@@ -64,7 +64,7 @@ public class NewClass {
         int counter = 0;
         double networkOutput;
 
-        while (correct < 100) {
+        while (correct < 110) {
 
             double[] testCase = toDouble(trainData.get(rnd.nextInt(trainData.size())));
             double expected = testCase[testCase.length - 1];

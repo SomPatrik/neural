@@ -23,9 +23,12 @@ import java.util.logging.Logger;
  */
 public class NewClass {
 
-    public static void main(String[] args) {
+    public static Network n;
+    
+    public static Network createNetwork(){
         ArrayList<Neuron> inputLayer = new ArrayList<>();
         ArrayList<Neuron> hiddenLayer = new ArrayList<>();
+        ArrayList<Neuron> hiddenLayer2 = new ArrayList<>();
         ArrayList<Neuron> outputLayer = new ArrayList<>();
 
         Random rnd = new Random();
@@ -34,13 +37,22 @@ public class NewClass {
             n.getWeights()[i] = 1;
             inputLayer.add(n);
         }
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 57; i++) {
             Neuron n = new Neuron(57);
             for (int j = 0; j < n.getWeights().length; j++) {
                 n.getWeights()[j] = 1 + rnd.nextDouble() * -2;
             }
             n.setBias(1 + rnd.nextDouble() * -2);
             hiddenLayer.add(n);
+        }
+
+        for (int i = 0; i < 4; i++) {
+            Neuron n = new Neuron(57);
+            for (int j = 0; j < n.getWeights().length; j++) {
+                n.getWeights()[j] = 1 + rnd.nextDouble() * -2;
+            }
+            n.setBias(1 + rnd.nextDouble() * -2);
+            hiddenLayer2.add(n);
         }
 
         for (int i = 0; i < 1; i++) {
@@ -52,19 +64,26 @@ public class NewClass {
             outputLayer.add(n);
         }
         Layer input = new Layer(inputLayer);
-        Layer hidden = new Layer(hiddenLayer);
+        //Layer hidden = new Layer(hiddenLayer);
+        Layer hidden2 = new Layer(hiddenLayer2);
         Layer output = new Layer(outputLayer);
 
-        Network n = new Network(0.1, input, hidden, output);
+        n = new Network(0.1, input, /*hidden,*/ hidden2, output);
+        
+        return n;
+    }
+    
+    public static void main(String[] args) {
+       // createNetwork();
 
         ArrayList<String[]> trainData = loadData("data\\testData.txt");
 
-        rnd = new Random();
+        Random rnd = new Random();
         int correct = 0;
         int counter = 0;
         double networkOutput;
 
-        while (correct < 110) {
+        while (correct < 50) {
 
             double[] testCase = toDouble(trainData.get(rnd.nextInt(trainData.size())));
             double expected = testCase[testCase.length - 1];
@@ -87,6 +106,7 @@ public class NewClass {
         ArrayList<String[]> testData = loadData("data\\trainData.txt");
         correct = 0;
         double expected;
+        double sumError = 0;
         for (String[] strings : testData) {
             double[] testCase = toDouble(strings);
             expected = testCase[testCase.length - 1];
@@ -94,19 +114,19 @@ public class NewClass {
 
             networkOutput = n.calculate(testCase);
 
-            if (Math.abs(Math.round(networkOutput) - expected) < 0.3) {
+            if (Math.abs(Math.round(networkOutput) - expected) == 0) {
                 System.out.println("expected: " + expected + " output: " + networkOutput);
-                correct++;
+                correct++;sumError += Math.abs(networkOutput - expected);
             } else {
-                System.err.println("expected: " + expected + " output: " + networkOutput);
+                System.out.println("wrong -> expected: " + expected + " output: " + networkOutput);
             }
-
+            
         }
-        System.out.println("correct: " + correct + " all: " + testData.size());
+        System.out.println("correct: " + correct + " all: " + testData.size() + "| sum error: " + sumError);
 
     }
 
-    private static ArrayList<String[]> loadData(String path) {
+    public static ArrayList<String[]> loadData(String path) {
         ArrayList<String[]> list = new ArrayList<>();
         try {
             Scanner sc = new Scanner(new File(path));
@@ -120,7 +140,7 @@ public class NewClass {
         return list;
     }
 
-    private static double[] toDouble(String[] get) {
+    public static double[] toDouble(String[] get) {
         double[] tmp = new double[get.length];
         for (int i = 0; i < get.length; i++) {
             tmp[i] = Double.parseDouble(get[i]);

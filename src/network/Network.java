@@ -6,17 +6,22 @@
 package network;
 
 import java.util.ArrayList;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 
 /**
  *
  * @author N
  */
-public class Network {
+public class Network implements Observable {
 
     private ArrayList<Layer> layers;
+    private ArrayList<InvalidationListener> observers;
     private double networkOutput;
     private double step;
+    
     public Network(double step,Layer... layers) {
+        this.observers = new ArrayList<>();
         this.layers = new ArrayList<>();
         init(layers);
         this.step = step;
@@ -54,7 +59,26 @@ public class Network {
             l = layers.get(i);
             l.updateWeights(step);
         }
-        
+        notifyAllobservers();
     }
 
+    public ArrayList<Layer> getLayers() {
+        return layers;
+    }
+    
+    private void notifyAllobservers(){
+        for (InvalidationListener observer : observers) {
+            observer.invalidated(this);
+        }
+    }
+
+    @Override
+    public void addListener(InvalidationListener listener) {
+        observers.add(listener);
+    }
+
+    @Override
+    public void removeListener(InvalidationListener listener) {
+        observers.remove(listener);
+    }
 }

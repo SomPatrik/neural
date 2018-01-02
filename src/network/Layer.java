@@ -81,17 +81,23 @@ public class Layer {
         }
     }
 
-    protected Layer getPreviousLayer() {
+    public Layer getPreviousLayer() {
         return previousLayer;
-    }
-
-    protected void setPreviousLayer(Layer previousLayer) {
-        this.previousLayer = previousLayer;
     }
 
     protected void connectLayer(Layer layer) {
         this.nextLayer = layer;
         layer.previousLayer = this;
     }
+
+    public ArrayList<Neuron> getNeurons() {
+        return neurons;
+    }
+
+    public Layer getNextLayer() {
+        return nextLayer;
+    }
+    
+    
 
 }

@@ -8,7 +8,7 @@ package gui;
 import java.awt.BorderLayout;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
-import spamfilter.NewClass;
+import spamfilter.Test;
 
 /**
  *
@@ -24,7 +24,7 @@ public class GUI extends javax.swing.JFrame implements InvalidationListener {
 
     public GUI() {
         initComponents();
-        nv = new NetworkVizualize(NewClass.createNetwork());
+        nv = new NetworkVizualize(Test.createNetwork());
         init();
 
     }
@@ -98,13 +98,13 @@ public class GUI extends javax.swing.JFrame implements InvalidationListener {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-//        nv = new NetworkVizualize(NewClass.createNetwork());
+//        nv = new NetworkVizualize(Test.createNetwork());
 //        init();
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
 
-                NewClass.main(null);
+                Test.main(null);
 
             }
         });

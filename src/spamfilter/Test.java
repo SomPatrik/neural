@@ -21,7 +21,7 @@ import java.util.logging.Logger;
  *
  * @author N
  */
-public class NewClass {
+public class Test {
 
     public static Network n;
     

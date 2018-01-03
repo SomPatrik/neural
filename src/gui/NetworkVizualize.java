@@ -16,7 +16,7 @@ import java.util.Random;
 import network.Layer;
 import network.Network;
 import network.Neuron;
-import spamfilter.NewClass;
+import spamfilter.Test;
 
 /**
  *
